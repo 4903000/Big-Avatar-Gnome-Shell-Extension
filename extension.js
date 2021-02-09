@@ -114,8 +114,12 @@ function updateExtensionAppearence() {
               	iconSize: settings.get_int('picturesize'),
               });
               //Get user name and center it vertically
+	      var name = GLib.get_real_name();
+	      if (name == "Unknown") {
+		  name = GLib.get_user_name();
+	      }
               var nameString = new St.Label ({
-              	text: "  " + GLib.get_real_name(),
+              	text: "  " + name,
               	y_align: Clutter.ActorAlign.CENTER
               });
               avatar.update();
