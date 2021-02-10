@@ -86,14 +86,14 @@ function updateExtensionAppearence() {
         new St.BoxLayout({
             x_align: Clutter.ActorAlign.CENTER,
             x_expand: true,
-          	y_expand: true,
-          	vertical: true,
+            y_expand: true,
+            vertical: true,
          })
     );
     //Test if in horizontal mode and change vertical and alignment variables
-	  if (settings.get_boolean('horizontalmode')) {
-	      this.iconMenuItem.actor.get_last_child().set_vertical(!this.iconMenuItem.actor.get_last_child().get_vertical());
-	      this.iconMenuItem.actor.get_last_child().x_align = Clutter.ActorAlign.START;
+    if (settings.get_boolean('horizontalmode')) {
+    	this.iconMenuItem.actor.get_last_child().set_vertical(!this.iconMenuItem.actor.get_last_child().get_vertical());
+    	this.iconMenuItem.actor.get_last_child().x_align = Clutter.ActorAlign.START;
     }
 
     //Adds item to menu
@@ -115,13 +115,27 @@ function updateExtensionAppearence() {
               });
               //Get user name and center it vertically
 	      var name = GLib.get_real_name();
-	      if (name == "Unknown") {
+	      if (name == "Unknown" || settings.get_boolean('usesystemname')) {
 		  name = GLib.get_user_name();
 	      }
               var nameString = new St.Label ({
-              	text: "  " + name,
-              	y_align: Clutter.ActorAlign.CENTER
+              	  text: name,
+		  y_expand: true,
+              	  y_align: Clutter.ActorAlign.START
               });
+	      var userString = new St.Label({
+		  text: GLib.get_user_name() + "@" + GLib.get_host_name(),
+		  y_expand: true,
+		  y_align: Clutter.ActorAlign.CENTER
+	      });
+	      var stringContainer = new St.BoxLayout({
+		  x_expand: true,
+          	  y_expand: true,
+          	  vertical: true,
+		  y_align: Clutter.ActorAlign.CENTER,
+		  x_align: Clutter.ActorAlign.CENTER
+              });
+
               avatar.update();
 
               //Remove all created menu itens
@@ -131,10 +145,16 @@ function updateExtensionAppearence() {
               this.iconMenuItem.actor.get_last_child().add_child(avatar.actor);
 
               //Set font size
-              nameString.style = "font-size: " + settings.get_int('fontsize').toString() + "px; margin: 8px;";
+	      stringContainer.style = "padding-left: 0.5em; padding-right: 0.5em;";
+              nameString.style = "font-size: " + settings.get_int('fontsize').toString() + "px; margin: 0px; font-size: 1.5em; font-weight: 300;";
+              userString.style = "font-size: " + settings.get_int('fontsize').toString() + "px; margin: 0px; color: grey;";
 
-              //Add name
-              this.iconMenuItem.actor.get_last_child().add_child(nameString);
+              //Add names
+	      stringContainer.add_child(nameString);
+	      if (settings.get_boolean('showuserathost')){
+		  stringContainer.add_child(userString);
+	      }
+              this.iconMenuItem.actor.get_last_child().add_child(stringContainer);
     }));
 }
 

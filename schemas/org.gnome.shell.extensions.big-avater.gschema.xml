@@ -5,6 +5,16 @@
       <summary>Horizontal mode</summary>
       <description>Horizontal mode</description>
     </key>
+    <key name="usesystemname" type="b">
+      <default>false</default>
+      <summary>Display user's system user name instead of real name</summary>
+      <description>Display user's system user name instead of real name</description>
+    </key>
+    <key name="showuserathost" type="b">
+      <default>false</default>
+      <summary>Display user@host identifier</summary>
+      <description>Display user@host identifier below the username</description>
+    </key>
     <key name="usedefaultvalues" type="b">
       <default>true</default>
       <summary>Set default font and picture sizes</summary>

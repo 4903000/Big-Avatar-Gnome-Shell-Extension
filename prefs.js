@@ -27,10 +27,14 @@ const BigAvatarSettings = new GObject.Class({
 
         //Create temp vars
         let horizontalLabel = null;
+        let nameDisplayLabel = null;
+        let userDisplayLabel = null;
         let defaultLabel = null;
         let fontSizeLabel = null;
         let pictureSizeLabel = null;
         let horizontalToggle = null;
+        let nameDisplayToggle = null;
+        let userDisplayToggle = null;
         let defaultToggle = null;
         let fontSizeSpinButton = null;
         let pictureSizeSpinButton = null;
@@ -38,9 +42,13 @@ const BigAvatarSettings = new GObject.Class({
         //Get values from gschema for horizontalmode and usedefaultvalues
         let horizontalmode = this._settings.get_boolean('horizontalmode');
         let usedefaultvalues = this._settings.get_boolean('usedefaultvalues');
+        let useSystemName = this._settings.get_boolean('usesystemname');
+        let showUserAtHost = this._settings.get_boolean('showuserathost');
 
         //Create horizontal mode and default values toggleable switches
         horizontalToggle = new Gtk.Switch({halign:Gtk.Align.END});
+        nameDisplayToggle = new Gtk.Switch({halign:Gtk.Align.END});
+        userDisplayToggle = new Gtk.Switch({halign:Gtk.Align.END});
         defaultToggle = new Gtk.Switch({halign:Gtk.Align.END});
 
         //Create size pickers
@@ -50,10 +58,22 @@ const BigAvatarSettings = new GObject.Class({
         //Set it's state to gschemas' default
         horizontalToggle.set_state(horizontalmode);
         defaultToggle.set_state(usedefaultvalues);
+        nameDisplayToggle.set_state(useSystemName);
+        userDisplayToggle.set_state(showUserAtHost);
 
         //Creates labels;
         horizontalLabel = new Gtk.Label({
             label: 'Enable horizontal mode:',
+            hexpand: true,
+            halign: Gtk.Align.START
+        });
+        nameDisplayLabel = new Gtk.Label({
+            label: 'Use system username:',
+            hexpand: true,
+            halign: Gtk.Align.START
+        });
+        userDisplayLabel = new Gtk.Label({
+            label: 'Show user@host:',
             hexpand: true,
             halign: Gtk.Align.START
         });
@@ -75,6 +95,14 @@ const BigAvatarSettings = new GObject.Class({
 
         /*Connects the change of state of the switch with the change of
         gschemas' value*/
+        nameDisplayToggle.connect('state-set', Lang.bind(this, function(w){
+            this._settings.set_boolean('usesystemname', !useSystemName);
+            useSystemName = !useSystemName;
+        }));
+        userDisplayToggle.connect('state-set', Lang.bind(this, function(w){
+            this._settings.set_boolean('showuserathost', !showUserAtHost);
+            showUserAtHost = !showUserAtHost;
+        }));
         horizontalToggle.connect('state-set', Lang.bind(this, function(w){
             this._settings.set_boolean('horizontalmode', !horizontalmode);
             horizontalmode = !horizontalmode;
@@ -161,14 +189,19 @@ const BigAvatarSettings = new GObject.Class({
         }));
 
         //Adds all widgets to the window
-        this.attach(horizontalLabel, 0, 1, 1, 1);
-        this.attach(defaultLabel, 0, 2, 1, 1);
-        this.attach(fontSizeLabel, 0, 3, 1, 1);
-        this.attach(pictureSizeLabel, 0, 4, 1, 1);
-        this.attach(horizontalToggle, 1, 1, 1, 1);
-        this.attach(defaultToggle, 1, 2, 1, 1);
-        this.attach(fontSizeSpinButton, 1, 3, 1, 1);
-        this.attach(pictureSizeSpinButton, 1, 4, 1, 1);
+        this.attach(horizontalLabel,       0, 1, 1, 1);
+        this.attach(nameDisplayLabel,      0, 2, 1, 1);
+        this.attach(userDisplayLabel,      0, 3, 1, 1);
+        this.attach(defaultLabel,          0, 4, 1, 1);
+        this.attach(fontSizeLabel,         0, 5, 1, 1);
+        this.attach(pictureSizeLabel,      0, 6, 1, 1);
+
+        this.attach(horizontalToggle,      1, 1, 1, 1);
+        this.attach(nameDisplayToggle,     1, 2, 1, 1);
+        this.attach(userDisplayToggle,     1, 3, 1, 1);
+        this.attach(defaultToggle,         1, 4, 1, 1);
+        this.attach(fontSizeSpinButton,    1, 5, 1, 1);
+        this.attach(pictureSizeSpinButton, 1, 6, 1, 1);
     },
 
 });
