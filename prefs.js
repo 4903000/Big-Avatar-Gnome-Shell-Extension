@@ -149,8 +149,8 @@ const BigAvatarSettings = new GObject.Class({
         //Set size values from gschema
         fontSizeSpinButton.set_value(this._settings.get_int('fontsize'));
         pictureSizeSpinButton.set_value(this._settings.get_int('picturesize'));
-        fontSizeSpinButton.update()
-        pictureSizeSpinButton.update()
+        fontSizeSpinButton.update();
+        pictureSizeSpinButton.update();
 
         //Connect change of values to actual change of values
         fontSizeSpinButton.connect('value-changed', Lang.bind(this, function(w) {

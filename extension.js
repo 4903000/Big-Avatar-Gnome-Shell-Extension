@@ -63,7 +63,7 @@ function disable() {
     }
     //Destroys iconMenuItem (basically removes the option from the menu)
     iconMenuItem.destroy();
-    settings.run_dispose()
+    settings.run_dispose();
 }
 
 //Destroys everything and creates a new one
@@ -75,7 +75,7 @@ function resetPre() {
     }
     //Destroys iconMenuItem (basically removes the option from the menu)
     iconMenuItem.destroy();
-    updateExtensionAppearence()
+    updateExtensionAppearence();
 }
 
 function updateExtensionAppearence() {
